@@ -25,6 +25,14 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
             genre: inp.genre(),
             composer: inp.composer(),
             comment: inp.comment(),
+            // MusicBrainz
+            acoust_id: None,
+            musicbrainz_artist_id: None,
+            musicbrainz_recording_id: None,
+            musicbrainz_release_artist_id: None,
+            musicbrainz_release_group_id: None,
+            musicbrainz_release_id: None,
+            musicbrainz_track_id: None,
         }
     }
 }
@@ -256,6 +264,129 @@ impl AudioTagEdit for Id3v2Tag {
     }
     fn remove_comment(&mut self) {
         self.inner.remove("COMM");
+    }
+
+    fn acoust_id(&self) -> Option<&str> {
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "Acoustid Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_acoust_id(&mut self, acoust_id: &str) {
+        todo!()
+    }
+
+    fn remove_acoust_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_artist_id(&self) -> Option<&str> {
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Artist Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_artist_id(&mut self, musicbrainz_release_artist_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_artist_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_recording_id(&self) -> Option<&str> {
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Track Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_recording_id(&mut self, musicbrainz_recording_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_recording_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn musicbrainz_release_artist_id(&self) -> Option<&str> {
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Album Artist Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_release_artist_id(&mut self, musicbrainz_release_group_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_artist_id(&mut self) {
+        todo!()
+    }
+
+
+    fn musicbrainz_release_group_id(&self) -> Option<&str> {
+        // MusicBrainz Release Group Id
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Release Group Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_release_group_id(&mut self, musicbrainz_release_group_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_group_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_release_id(&self) -> Option<&str> {
+        // MusicBrainz Album Id
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Album Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_release_id(&mut self, musicbrainz_release_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_track_id(&self) -> Option<&str> {
+        // MusicBrainz Release Track Id
+        self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Release Track Id")
+            .and_then(|et| {
+                Some(et.value.as_str())
+            })
+    }
+
+    fn set_musicbrainz_track_id(&mut self, musicbrainz_track_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_track_id(&mut self) {
+        todo!()
     }
 }
 

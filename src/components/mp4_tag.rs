@@ -28,6 +28,14 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
         let genre = inp.genre();
         let composer = inp.composer();
         let comment = inp.comment();
+        // MusicBrainz
+        let acoust_id = None;
+        let musicbrainz_artist_id = None;
+        let musicbrainz_recording_id = None;
+        let musicbrainz_release_artist_id = None;
+        let musicbrainz_release_group_id = None;
+        let musicbrainz_release_id = None;
+        let musicbrainz_track_id = None;
         Self {
             config: inp.config,
             title,
@@ -45,6 +53,13 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
             genre,
             composer,
             comment,
+            acoust_id,
+            musicbrainz_artist_id,
+            musicbrainz_recording_id,
+            musicbrainz_release_artist_id,
+            musicbrainz_release_group_id,
+            musicbrainz_release_id,
+            musicbrainz_track_id,
         }
     }
 }
@@ -312,6 +327,90 @@ impl AudioTagEdit for Mp4Tag {
     }
     fn remove_comment(&mut self) {
         self.inner.remove_comments();
+    }
+
+    fn acoust_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_acoust_id(&mut self, acoust_id: &str) {
+        todo!()
+    }
+
+    fn remove_acoust_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_artist_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_artist_id(&mut self, acoust_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_artist_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_recording_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_recording_id(&mut self, musicbrainz_recording_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_recording_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn musicbrainz_release_artist_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_release_artist_id(&mut self, musicbrainz_release_artist_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_artist_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_release_group_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_release_group_id(&mut self, musicbrainz_release_group_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_group_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_release_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_release_id(&mut self, musicbrainz_release_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_release_id(&mut self) {
+        todo!()
+    }
+
+    fn musicbrainz_track_id(&self) -> Option<&str> {
+        todo!()
+    }
+
+    fn set_musicbrainz_track_id(&mut self, musicbrainz_track_id: &str) {
+        todo!()
+    }
+
+    fn remove_musicbrainz_track_id(&mut self) {
+        todo!()
     }
 }
 

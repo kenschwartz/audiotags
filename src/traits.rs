@@ -141,8 +141,31 @@ pub trait AudioTagEdit: AudioTagConfig {
     fn remove_genre(&mut self);
 
     fn comment(&self) -> Option<&str>;
-    fn set_comment(&mut self, genre: String);
+    fn set_comment(&mut self, comment: String);
     fn remove_comment(&mut self);
+
+    // MusicBrainz
+    fn acoust_id(&self) -> Option<&str>;
+    fn set_acoust_id(&mut self, acoust_id: &str);
+    fn remove_acoust_id(&mut self);
+    fn musicbrainz_artist_id(&self) -> Option<&str>;
+    fn set_musicbrainz_artist_id(&mut self, acoust_id: &str);
+    fn remove_musicbrainz_artist_id(&mut self);
+    fn musicbrainz_recording_id(&self) -> Option<&str>;
+    fn set_musicbrainz_recording_id(&mut self, musicbrainz_recording_id: &str);
+    fn remove_musicbrainz_recording_id(&self) -> Option<&str>;
+    fn musicbrainz_release_artist_id(&self) -> Option<&str>;
+    fn set_musicbrainz_release_artist_id(&mut self, musicbrainz_release_artist_id: &str);
+    fn remove_musicbrainz_release_artist_id(&mut self);
+    fn musicbrainz_release_group_id(&self) -> Option<&str>;
+    fn set_musicbrainz_release_group_id(&mut self, musicbrainz_release_group_id: &str);
+    fn remove_musicbrainz_release_group_id(&mut self);
+    fn musicbrainz_release_id(&self) -> Option<&str>;
+    fn set_musicbrainz_release_id(&mut self, musicbrainz_release_id: &str);
+    fn remove_musicbrainz_release_id(&mut self);
+    fn musicbrainz_track_id(&self) -> Option<&str>;
+    fn set_musicbrainz_track_id(&mut self, musicbrainz_track_id: &str);
+    fn remove_musicbrainz_track_id(&mut self);
 }
 
 pub trait AudioTagWrite {

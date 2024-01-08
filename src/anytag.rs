@@ -19,6 +19,15 @@ pub struct AnyTag<'a> {
     pub genre: Option<&'a str>,
     pub composer: Option<&'a str>,
     pub comment: Option<&'a str>,
+
+    // MusicBrainz
+    pub acoust_id: Option<&'a str>,
+    pub musicbrainz_artist_id: Option<&'a str>,
+    pub musicbrainz_recording_id: Option<&'a str>,
+    pub musicbrainz_release_artist_id: Option<&'a str>,
+    pub musicbrainz_release_group_id: Option<&'a str>,
+    pub musicbrainz_release_id: Option<&'a str>,
+    pub musicbrainz_track_id: Option<&'a str>,
 }
 
 impl AudioTagConfig for AnyTag<'_> {
@@ -83,6 +92,13 @@ impl<'a> AnyTag<'a> {
     pub fn comment(&self) -> Option<&str> {
         self.comment
     }
+
+    pub fn acoust_id(&self) -> Option<&str> {self.acoust_id}
+    pub fn musicbrainz_recording_id(&self) -> Option<&str> {self.musicbrainz_recording_id}
+    pub fn musicbrainz_release_artist_id(&self) -> Option<&str> {self.musicbrainz_release_artist_id}
+    pub fn musicbrainz_release_group_id(&self) -> Option<&str> {self.musicbrainz_release_group_id}
+    pub fn musicbrainz_release_id(&self) -> Option<&str> {self.musicbrainz_release_id}
+    pub fn musicbrainz_track_id(&self) -> Option<&str> {self.musicbrainz_track_id}
 }
 
 impl AnyTag<'_> {
