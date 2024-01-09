@@ -251,18 +251,18 @@ impl AudioTagEdit for Mp4Tag {
         self.inner.remove_artworks();
     }
 
-    fn remove_track(&mut self) {
-        self.inner.remove_track(); // faster than removing separately
-    }
-
     fn composer(&self) -> Option<&str> {
         self.inner.composer()
     }
+
     fn set_composer(&mut self, composer: String) {
         self.inner.set_composer(composer);
     }
     fn remove_composer(&mut self) {
         self.inner.remove_composers();
+    }
+    fn remove_track(&mut self) {
+        self.inner.remove_track(); // faster than removing separately
     }
 
     fn track_number(&self) -> Option<u16> {
@@ -330,7 +330,18 @@ impl AudioTagEdit for Mp4Tag {
     }
 
     fn acoust_id(&self) -> Option<&str> {
-        todo!()
+        for atom in self.inner
+        let ident = Mp4FreeformIdent::new("com.apple.iTunes", "iTunes_CDDB_1");
+        let isrc = self.inner.strings_of(&ident).next();
+        if isrc.is_some() {
+            let x = isrc.unwrap();
+            println!("hi")
+        }
+        return None;
+        //match isrc {
+            //None => { println!("No iTunes iTunes_CDDB_1 string found"); }
+            //Some(x) => { return x; }
+        //}
     }
 
     fn musicbrainz_artist_id(&self) -> Option<&str> {
