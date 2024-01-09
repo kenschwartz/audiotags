@@ -275,13 +275,6 @@ impl AudioTagEdit for Id3v2Tag {
             })
     }
 
-    fn set_acoust_id(&mut self, acoust_id: &str) {
-        todo!()
-    }
-
-    fn remove_acoust_id(&mut self) {
-        todo!()
-    }
 
     fn musicbrainz_artist_id(&self) -> Option<&str> {
         self.inner
@@ -292,13 +285,7 @@ impl AudioTagEdit for Id3v2Tag {
             })
     }
 
-    fn set_musicbrainz_artist_id(&mut self, musicbrainz_release_artist_id: &str) {
-        todo!()
-    }
 
-    fn remove_musicbrainz_artist_id(&mut self) {
-        todo!()
-    }
 
     fn musicbrainz_recording_id(&self) -> Option<&str> {
         self.inner
@@ -309,13 +296,6 @@ impl AudioTagEdit for Id3v2Tag {
             })
     }
 
-    fn set_musicbrainz_recording_id(&mut self, musicbrainz_recording_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_recording_id(&self) -> Option<&str> {
-        todo!()
-    }
 
     fn musicbrainz_release_artist_id(&self) -> Option<&str> {
         self.inner
@@ -324,14 +304,6 @@ impl AudioTagEdit for Id3v2Tag {
             .and_then(|et| {
                 Some(et.value.as_str())
             })
-    }
-
-    fn set_musicbrainz_release_artist_id(&mut self, musicbrainz_release_group_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_artist_id(&mut self) {
-        todo!()
     }
 
 
@@ -345,13 +317,6 @@ impl AudioTagEdit for Id3v2Tag {
             })
     }
 
-    fn set_musicbrainz_release_group_id(&mut self, musicbrainz_release_group_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_group_id(&mut self) {
-        todo!()
-    }
 
     fn musicbrainz_release_id(&self) -> Option<&str> {
         // MusicBrainz Album Id
@@ -361,14 +326,6 @@ impl AudioTagEdit for Id3v2Tag {
             .and_then(|et| {
                 Some(et.value.as_str())
             })
-    }
-
-    fn set_musicbrainz_release_id(&mut self, musicbrainz_release_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_id(&mut self) {
-        todo!()
     }
 
     fn musicbrainz_track_id(&self) -> Option<&str> {
@@ -381,13 +338,6 @@ impl AudioTagEdit for Id3v2Tag {
             })
     }
 
-    fn set_musicbrainz_track_id(&mut self, musicbrainz_track_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_track_id(&mut self) {
-        todo!()
-    }
 }
 
 impl AudioTagWrite for Id3v2Tag {

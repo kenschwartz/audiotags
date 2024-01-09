@@ -333,23 +333,7 @@ impl AudioTagEdit for Mp4Tag {
         todo!()
     }
 
-    fn set_acoust_id(&mut self, acoust_id: &str) {
-        todo!()
-    }
-
-    fn remove_acoust_id(&mut self) {
-        todo!()
-    }
-
     fn musicbrainz_artist_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn set_musicbrainz_artist_id(&mut self, acoust_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_artist_id(&mut self) {
         todo!()
     }
 
@@ -357,23 +341,7 @@ impl AudioTagEdit for Mp4Tag {
         todo!()
     }
 
-    fn set_musicbrainz_recording_id(&mut self, musicbrainz_recording_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_recording_id(&self) -> Option<&str> {
-        todo!()
-    }
-
     fn musicbrainz_release_artist_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn set_musicbrainz_release_artist_id(&mut self, musicbrainz_release_artist_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_artist_id(&mut self) {
         todo!()
     }
 
@@ -381,23 +349,7 @@ impl AudioTagEdit for Mp4Tag {
         todo!()
     }
 
-    fn set_musicbrainz_release_group_id(&mut self, musicbrainz_release_group_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_group_id(&mut self) {
-        todo!()
-    }
-
     fn musicbrainz_release_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn set_musicbrainz_release_id(&mut self, musicbrainz_release_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_release_id(&mut self) {
         todo!()
     }
 
@@ -405,13 +357,6 @@ impl AudioTagEdit for Mp4Tag {
         todo!()
     }
 
-    fn set_musicbrainz_track_id(&mut self, musicbrainz_track_id: &str) {
-        todo!()
-    }
-
-    fn remove_musicbrainz_track_id(&mut self) {
-        todo!()
-    }
 }
 
 impl AudioTagWrite for Mp4Tag {
