@@ -26,13 +26,13 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
             composer: inp.composer(),
             comment: inp.comment(),
             // MusicBrainz
-            acoust_id: None,
-            musicbrainz_artist_id: None,
-            musicbrainz_recording_id: None,
-            musicbrainz_release_artist_id: None,
-            musicbrainz_release_group_id: None,
-            musicbrainz_release_id: None,
-            musicbrainz_track_id: None,
+            acoust_id: inp.acoust_id(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
+            musicbrainz_recording_id: inp.musicbrainz_recording_id(),
+            musicbrainz_release_artist_id: inp.musicbrainz_release_artist_id(),
+            musicbrainz_release_group_id: inp.musicbrainz_release_group_id(),
+            musicbrainz_release_id: inp.musicbrainz_release_id(),
+            musicbrainz_track_id: inp.musicbrainz_track_id(),
         }
     }
 }
@@ -286,7 +286,6 @@ impl AudioTagEdit for Id3v2Tag {
     }
 
 
-
     fn musicbrainz_recording_id(&self) -> Option<&str> {
         self.inner
             .extended_texts()
@@ -337,7 +336,6 @@ impl AudioTagEdit for Id3v2Tag {
                 Some(et.value.as_str())
             })
     }
-
 }
 
 impl AudioTagWrite for Id3v2Tag {

@@ -62,6 +62,11 @@ impl<'a> From<&'a FlacTag> for AnyTag<'a> {
             genre: inp.genre(),
             composer: inp.composer(),
             comment: inp.comment(),
+            acoust_id: inp.acoust_id(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
+            musicbrainz_recording_id: inp.musicbrainz_recording_id(),
+            musicbrainz_release_artist_id: inp.musicbrainz_release_artist_id(),
+            musicbrainz_release_group_id: inp.musicbrainz_release_group_id(),
             ..Self::default()
         };
 
@@ -282,32 +287,40 @@ impl AudioTagEdit for FlacTag {
     }
 
     fn acoust_id(&self) -> Option<&str> {
-        todo!()
+        // "ACOUSTID_ID"
+        self.get_first("ACOUSTID_ID")
     }
 
     fn musicbrainz_artist_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_ARTISTID"
+        self.get_first("MUSICBRAINZ_ARTISTID")
     }
 
     fn musicbrainz_recording_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_TRACKID"
+        self.get_first("MUSICBRAINZ_TRACKID")
     }
 
     fn musicbrainz_release_artist_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_ALBUMARTISTID"
+        self.get_first("MUSICBRAINZ_ALBUMARTISTID")
     }
 
     fn musicbrainz_release_group_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_RELEASEGROUPID"
+        self.get_first("MUSICBRAINZ_RELEASEGROUPID")
     }
 
     fn musicbrainz_release_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_ALBUMID"
+        self.get_first("MUSICBRAINZ_ALBUMID")
     }
 
     fn musicbrainz_track_id(&self) -> Option<&str> {
-        todo!()
+        // "MUSICBRAINZ_RELEASETRACKID"
+        self.get_first("MUSICBRAINZ_RELEASETRACKID")
     }
+}
 
 
 impl AudioTagWrite for FlacTag {
