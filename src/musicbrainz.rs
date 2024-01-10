@@ -27,7 +27,7 @@ impl MusicBrainz {
             .expect("acoust_id: error getting read");
         read_lock.clone()
     }
-    pub fn set_acoust_id(&self, id: String) {
+    pub fn set_acoust_id(&self, id: &String) {
         let mut write_lock = self
             .acoust_id
             .write()
@@ -42,7 +42,7 @@ impl MusicBrainz {
             .expect("musicbrainz_artist_id: error getting read");
         read_lock.clone()
     }
-    pub fn set_musicbrainz_artist_id(&self, id: String) {
+    pub fn set_musicbrainz_artist_id(&self, id: &String) {
         let mut write_lock = self
             .musicbrainz_artist_id
             .write()
@@ -56,7 +56,7 @@ impl MusicBrainz {
             .expect("musicbrainz_album_id: error getting read");
         read_lock.clone()
     }
-    pub fn set_musicbrainz_album_id(&self, id: String) {
+    pub fn set_musicbrainz_album_id(&self, id: &String) {
         let mut write_lock = self
             .musicbrainz_album_id
             .write()
@@ -70,7 +70,7 @@ impl MusicBrainz {
             .expect("musicbrainz_track_id: error getting read");
         read_lock.clone()
     }
-    pub fn set_musicbrainz_track_id(&self, id: String) {
+    pub fn set_musicbrainz_track_id(&self, id: &String) {
         let mut write_lock = self
             .musicbrainz_track_id
             .write()

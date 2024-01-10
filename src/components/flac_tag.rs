@@ -101,29 +101,29 @@ impl MusicBrainzConfig for FlacTag {
         {
             let x = self.get_first("ACOUSTID_ID");
             if x.is_some() {
-                mb.set_acoust_id(x.unwrap().to_string());
-                self.musicbrainz.set_acoust_id(x.unwrap().to_string());
+                mb.set_acoust_id(&x.unwrap().to_string());
+                self.musicbrainz.set_acoust_id(&x.unwrap().to_string());
             }
         }
         {
             let x = self.get_first("MUSICBRAINZ_ALBUMARTISTID");
             if x.is_some() {
-                mb.set_musicbrainz_artist_id(x.unwrap().to_string());
-                self.musicbrainz.set_musicbrainz_artist_id(x.unwrap().to_string());
+                mb.set_musicbrainz_artist_id(&x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_artist_id(&x.unwrap().to_string());
             }
         }
         {
             let x = self.get_first("MUSICBRAINZ_ALBUMID");
             if x.is_some() {
-                mb.set_musicbrainz_album_id(x.unwrap().to_string());
-                self.musicbrainz.set_musicbrainz_album_id(x.unwrap().to_string());
+                mb.set_musicbrainz_album_id(&x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_album_id(&x.unwrap().to_string());
             }
         }
         {
             let x = self.get_first("MUSICBRAINZ_RELEASETRACKID");
             if x.is_some() {
-                mb.set_musicbrainz_track_id(x.unwrap().to_string());
-                self.musicbrainz.set_musicbrainz_track_id(x.unwrap().to_string());
+                mb.set_musicbrainz_track_id(&x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_track_id(&x.unwrap().to_string());
             }
         }
         mb

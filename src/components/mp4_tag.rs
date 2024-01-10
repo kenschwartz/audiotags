@@ -126,31 +126,31 @@ impl MusicBrainzConfig for Mp4Tag {
             let ident = Mp4FreeformIdent::new("com.apple.iTunes", "Acoustid Id");
             let isrc = self.inner.strings_of(&ident).next();
             if isrc.is_some() {
-                mb.set_acoust_id(isrc.unwrap().to_string());
-                self.musicbrainz.set_acoust_id(isrc.unwrap().to_string());
+                mb.set_acoust_id(&isrc.unwrap().to_string());
+                self.musicbrainz.set_acoust_id(&isrc.unwrap().to_string());
             }
             {
                 let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Artist Id");
                 let isrc = self.inner.strings_of(&ident).next();
                 if isrc.is_some() {
-                    mb.set_musicbrainz_artist_id(isrc.unwrap().to_string());
-                    self.musicbrainz.set_musicbrainz_artist_id(isrc.unwrap().to_string());
+                    mb.set_musicbrainz_artist_id(&isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_artist_id(&isrc.unwrap().to_string());
                 }
             }
             {
                 let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Album Id");
                 let isrc = self.inner.strings_of(&ident).next();
                 if isrc.is_some() {
-                    mb.set_musicbrainz_album_id(isrc.unwrap().to_string());
-                    self.musicbrainz.set_musicbrainz_album_id(isrc.unwrap().to_string());
+                    mb.set_musicbrainz_album_id(&isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_album_id(&isrc.unwrap().to_string());
                 }
             }
             {
-                let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Track Id");
+                let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Release Track Id");
                 let isrc = self.inner.strings_of(&ident).next();
                 if isrc.is_some() {
-                    mb.set_musicbrainz_track_id(isrc.unwrap().to_string());
-                    self.musicbrainz.set_musicbrainz_track_id(isrc.unwrap().to_string());
+                    mb.set_musicbrainz_track_id(&isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_track_id(&isrc.unwrap().to_string());
                 }
             }
         }

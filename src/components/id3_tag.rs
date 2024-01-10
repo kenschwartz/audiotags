@@ -18,8 +18,9 @@ impl MusicBrainzConfig for Id3v2Tag {
                 .extended_texts()
                 .find(|&et| et.description == "Acoustid Id");
             if x.is_some() {
-                mb.set_acoust_id(x.unwrap().value.to_string());
-                self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
+                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
+                mb.set_acoust_id(&new_string);
+                self.musicbrainz.set_acoust_id(&new_string);
             }
         }
         {
@@ -27,8 +28,9 @@ impl MusicBrainzConfig for Id3v2Tag {
                 .extended_texts()
                 .find(|&et| et.description == "MusicBrainz Album Artist Id");
             if x.is_some() {
-                mb.set_musicbrainz_artist_id(x.unwrap().value.to_string());
-                self.musicbrainz.set_musicbrainz_artist_id(x.unwrap().value.to_string());
+                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
+                mb.set_musicbrainz_artist_id(&new_string);
+                self.musicbrainz.set_musicbrainz_artist_id(&new_string);
             }
         }
         {
@@ -36,8 +38,9 @@ impl MusicBrainzConfig for Id3v2Tag {
                 .extended_texts()
                 .find(|&et| et.description == "MusicBrainz Album Id");
             if x.is_some() {
-                mb.set_musicbrainz_album_id(x.unwrap().value.to_string());
-                self.musicbrainz.set_musicbrainz_album_id(x.unwrap().value.to_string());
+                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
+                mb.set_musicbrainz_album_id(&new_string);
+                self.musicbrainz.set_musicbrainz_album_id(&new_string);
             }
         }
         {
@@ -45,11 +48,11 @@ impl MusicBrainzConfig for Id3v2Tag {
                 .extended_texts()
                 .find(|&et| et.description == "MusicBrainz Release Track Id");
             if x.is_some() {
-                mb.set_musicbrainz_track_id(x.unwrap().value.to_string());
-                self.musicbrainz.set_musicbrainz_track_id(x.unwrap().value.to_string());
+                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
+                mb.set_musicbrainz_track_id(&new_string);
+                self.musicbrainz.set_musicbrainz_track_id(&new_string);
             }
         }
-
         mb
     }
 }
