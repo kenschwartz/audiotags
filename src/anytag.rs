@@ -1,6 +1,8 @@
 use std::sync::Arc;
-use crate::*;
+
 use id3::Timestamp;
+
+use crate::*;
 
 #[derive(Default)]
 pub struct AnyTag<'a> {

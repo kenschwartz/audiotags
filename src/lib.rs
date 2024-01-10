@@ -61,34 +61,33 @@
 //! tag.write_to_path("test.mp3").expect("Fail to save");
 //! ```
 
-pub(crate) use audiotags_dev_macro::*;
-
-pub mod anytag;
-pub use anytag::*;
-
-pub mod components;
-pub use components::*;
-
-pub mod error;
-pub use error::{Error, Result};
-
-pub mod traits;
-pub use traits::*;
-
-pub mod types;
-pub use types::*;
-
-pub mod config;
-pub mod musicbrainz;
-
-pub use config::Config;
-pub use musicbrainz::MusicBrainz;
-
+pub use std::convert::{TryFrom, TryInto};
 use std::convert::From;
 use std::fs::File;
 use std::path::Path;
 
-pub use std::convert::{TryFrom, TryInto};
+pub(crate) use audiotags_dev_macro::*;
+
+pub use anytag::*;
+pub use components::*;
+pub use config::Config;
+pub use error::{Error, Result};
+pub use musicbrainz::MusicBrainz;
+pub use traits::*;
+pub use types::*;
+
+pub mod anytag;
+
+pub mod components;
+
+pub mod error;
+
+pub mod traits;
+
+pub mod types;
+
+pub mod config;
+pub mod musicbrainz;
 
 /// A builder for `Box<dyn AudioTag>`. If you do not want a trait object, you can use individual types.
 ///
@@ -199,9 +198,9 @@ pub enum TagType {
 impl TagType {
     fn try_from_ext(ext: &str) -> crate::Result<Self> {
         match ext {
-                                                     "mp3" => Ok(Self::Id3v2),
+            "mp3" => Ok(Self::Id3v2),
             "m4a" | "m4b" | "m4p" | "m4v" | "isom" | "mp4" => Ok(Self::Mp4),
-                                                    "flac" => Ok(Self::Flac),
+            "flac" => Ok(Self::Flac),
             p => Err(crate::Error::UnsupportedFormat(p.to_owned())),
         }
     }

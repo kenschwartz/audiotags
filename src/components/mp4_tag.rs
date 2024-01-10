@@ -1,11 +1,12 @@
-use crate::*;
-use id3::Timestamp;
-use mp4ameta::{self, ImgFmt};
 use std::str::FromStr;
 use std::sync::Arc;
 
-pub use mp4ameta::Tag as Mp4InnerTag;
+use id3::Timestamp;
+use mp4ameta::{self, ImgFmt};
 pub use mp4ameta::FreeformIdent as Mp4FreeformIdent;
+pub use mp4ameta::Tag as Mp4InnerTag;
+
+use crate::*;
 
 impl_tag!(Mp4Tag, Mp4InnerTag, TagType::Mp4);
 
@@ -330,7 +331,7 @@ impl AudioTagEdit for Mp4Tag {
     }
 
     fn acoust_id(&self) -> Option<Arc<str>> {
-        let ai= self.musicbrainz.acoust_id();
+        let ai = self.musicbrainz.acoust_id();
         if ai.is_some() {
             return ai;
         }

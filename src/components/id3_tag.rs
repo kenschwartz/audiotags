@@ -1,8 +1,9 @@
 use std::sync::Arc;
-use crate::*;
-use id3::{self, Content, Frame, TagLike, Timestamp};
 
+use id3::{self, Content, Frame, TagLike, Timestamp};
 pub use id3::Tag as Id3v2InnerTag;
+
+use crate::*;
 
 impl_tag!(Id3v2Tag, Id3v2InnerTag, TagType::Id3v2);
 
@@ -265,7 +266,7 @@ impl AudioTagEdit for Id3v2Tag {
 
 
     fn acoust_id(&self) -> Option<Arc<str>> {
-        let ai= self.musicbrainz.acoust_id();
+        let ai = self.musicbrainz.acoust_id();
         if ai.is_some() {
             return ai;
         }

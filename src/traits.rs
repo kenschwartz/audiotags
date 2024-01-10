@@ -1,6 +1,8 @@
 use std::sync::Arc;
-use super::*;
+
 use id3::Timestamp;
+
+use super::*;
 
 pub trait AudioTag: AudioTagEdit + AudioTagWrite + ToAnyTag {}
 

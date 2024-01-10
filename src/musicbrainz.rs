@@ -31,7 +31,7 @@ impl MusicBrainz {
         return x;
         //Some(Arc::clone(x))
     }
-    pub fn set_acoust_id(&self, aid: String)  {
+    pub fn set_acoust_id(&self, aid: String) {
         let mut write_lock = self
             .acoust_id
             .write()

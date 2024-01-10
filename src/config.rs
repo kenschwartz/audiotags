@@ -15,6 +15,7 @@ impl Default for Config {
         }
     }
 }
+
 impl Config {
     pub fn sep_artist(mut self, sep: &'static str) -> Self {
         self.sep_artist = sep;
