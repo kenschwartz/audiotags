@@ -1,11 +1,11 @@
-use crate::*;
-use id3::Timestamp;
-use metaflac;
 use std::str::FromStr;
 use std::sync::Arc;
 
+use id3::Timestamp;
+use metaflac;
 pub use metaflac::Tag as FlacInnerTag;
-use crate::components::mp4_tag::Mp4FreeformIdent;
+
+use crate::*;
 
 impl_tag!(FlacTag, FlacInnerTag, TagType::Flac);
 
@@ -285,25 +285,18 @@ impl AudioTagEdit for FlacTag {
     }
 
     fn acoust_id(&self) -> Option<Arc<str>> {
-        None
-        /*
         // "ACOUSTID_ID"
-        match self.musicbrainz.acoust_id() {
-            None => {
-                match self.get_first("ACOUSTID_ID") {
-                    None => return None,
-                    Some(x) => Some(self.musicbrainz.set_acoust_id(x.to_string())),
-                };
-                self.musicbrainz.acoust_id()
-            },
-            Some(x) => Some(x)
+        let ai = self.musicbrainz.acoust_id();
+        if ai.is_some() {
+            return ai;
         }
-         */
-
-        // if self.musicbrainz.acoust_id().is_some() {
-        // return self.musicbrainz.acoust_id();
-        // }
-        // self.get_first("ACOUSTID_ID")
+        return match self.get_first("ACOUSTID_ID") {
+            None => None,
+            Some(x) => {
+                Some(self.musicbrainz.set_acoust_id(x.to_string()));
+                self.musicbrainz.acoust_id()
+            }
+        };
     }
 
     /*
