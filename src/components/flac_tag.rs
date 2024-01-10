@@ -65,6 +65,9 @@ impl<'a> From<&'a FlacTag> for AnyTag<'a> {
             composer: inp.composer(),
             comment: inp.comment(),
             acoust_id: inp.acoust_id(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
+            musicbrainz_album_id: inp.musicbrainz_album_id(),
+            musicbrainz_track_id: inp.musicbrainz_album_id(),
             ..Self::default()
         };
 
@@ -95,10 +98,33 @@ impl FlacTag {
 impl MusicBrainzConfig for FlacTag {
     fn create_musicbrainz(&self) -> MusicBrainz {
         let mb = MusicBrainz::default();
-        let x = self.get_first("ACOUSTID_ID");
-        if x.is_some() {
-            self.musicbrainz.set_acoust_id(x.unwrap().to_string());
-            mb.set_acoust_id(x.unwrap().to_string());
+        {
+            let x = self.get_first("ACOUSTID_ID");
+            if x.is_some() {
+                mb.set_acoust_id(x.unwrap().to_string());
+                self.musicbrainz.set_acoust_id(x.unwrap().to_string());
+            }
+        }
+        {
+            let x = self.get_first("MUSICBRAINZ_ALBUMARTISTID");
+            if x.is_some() {
+                mb.set_musicbrainz_artist_id(x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_artist_id(x.unwrap().to_string());
+            }
+        }
+        {
+            let x = self.get_first("MUSICBRAINZ_ALBUMID");
+            if x.is_some() {
+                mb.set_musicbrainz_album_id(x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_album_id(x.unwrap().to_string());
+            }
+        }
+        {
+            let x = self.get_first("MUSICBRAINZ_RELEASETRACKID");
+            if x.is_some() {
+                mb.set_musicbrainz_track_id(x.unwrap().to_string());
+                self.musicbrainz.set_musicbrainz_track_id(x.unwrap().to_string());
+            }
         }
         mb
     }
@@ -308,48 +334,18 @@ impl AudioTagEdit for FlacTag {
     }
 
     fn acoust_id(&self) -> Arc<str> {
-        // "ACOUSTID_ID"
         self.musicbrainz.acoust_id()
-        /*
-        return match self.get_first("ACOUSTID_ID") {
-            None => None,
-            Some(x) => {
-                Some(self.musicbrainz.set_acoust_id(x.to_string()));
-                self.musicbrainz.acoust_id()
-         */
     }
 
-    /*
-    fn musicbrainz_artist_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_ARTISTID"
-        self.get_first("MUSICBRAINZ_ARTISTID")
+    fn musicbrainz_artist_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_artist_id()
     }
-
-    fn musicbrainz_recording_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_TRACKID"
-        self.get_first("MUSICBRAINZ_TRACKID")
+    fn musicbrainz_album_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_album_id()
     }
-
-    fn musicbrainz_release_artist_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_ALBUMARTISTID"
-        self.get_first("MUSICBRAINZ_ALBUMARTISTID")
+    fn musicbrainz_track_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_track_id()
     }
-
-    fn musicbrainz_release_group_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_RELEASEGROUPID"
-        self.get_first("MUSICBRAINZ_RELEASEGROUPID")
-    }
-
-    fn musicbrainz_release_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_ALBUMID"
-        self.get_first("MUSICBRAINZ_ALBUMID")
-    }
-
-    fn musicbrainz_track_id(&self) -> Option<&str> {
-        // "MUSICBRAINZ_RELEASETRACKID"
-        self.get_first("MUSICBRAINZ_RELEASETRACKID")
-    }
-     */
 }
 
 

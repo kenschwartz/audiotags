@@ -33,14 +33,9 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
         let comment = inp.comment();
         // MusicBrainz
         let acoust_id = inp.acoust_id();
-        /*
-        let musicbrainz_artist_id = None;
-        let musicbrainz_recording_id = None;
-        let musicbrainz_release_artist_id = None;
-        let musicbrainz_release_group_id = None;
-        let musicbrainz_release_id = None;
-        let musicbrainz_track_id = None;
-         */
+        let musicbrainz_artist_id = inp.musicbrainz_artist_id();
+        let musicbrainz_album_id = inp.musicbrainz_album_id();
+        let musicbrainz_track_id = inp.musicbrainz_track_id();
         Self {
             config: inp.config,
             musicbrainz: inp.musicbrainz.clone(),
@@ -60,6 +55,9 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
             composer,
             comment,
             acoust_id,
+            musicbrainz_artist_id,
+            musicbrainz_album_id,
+            musicbrainz_track_id,
         }
     }
 }
@@ -124,17 +122,43 @@ impl<'a> std::convert::TryFrom<&'a mp4ameta::Data> for Picture<'a> {
 impl MusicBrainzConfig for Mp4Tag {
     fn create_musicbrainz(&self) -> MusicBrainz {
         let mb = MusicBrainz::default();
-        let ident = Mp4FreeformIdent::new("com.apple.iTunes", "iTunes_CDDB_1");
-        let isrc = self.inner.strings_of(&ident).next();
-        if isrc.is_some() {
-            self.musicbrainz.set_acoust_id(isrc.unwrap().to_string());
+        {
+            let ident = Mp4FreeformIdent::new("com.apple.iTunes", "Acoustid Id");
+            let isrc = self.inner.strings_of(&ident).next();
+            if isrc.is_some() {
+                mb.set_acoust_id(isrc.unwrap().to_string());
+                self.musicbrainz.set_acoust_id(isrc.unwrap().to_string());
+            }
+            {
+                let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Artist Id");
+                let isrc = self.inner.strings_of(&ident).next();
+                if isrc.is_some() {
+                    mb.set_musicbrainz_artist_id(isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_artist_id(isrc.unwrap().to_string());
+                }
+            }
+            {
+                let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Album Id");
+                let isrc = self.inner.strings_of(&ident).next();
+                if isrc.is_some() {
+                    mb.set_musicbrainz_album_id(isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_album_id(isrc.unwrap().to_string());
+                }
+            }
+            {
+                let ident = Mp4FreeformIdent::new("com.apple.iTunes", "MusicBrainz Track Id");
+                let isrc = self.inner.strings_of(&ident).next();
+                if isrc.is_some() {
+                    mb.set_musicbrainz_track_id(isrc.unwrap().to_string());
+                    self.musicbrainz.set_musicbrainz_track_id(isrc.unwrap().to_string());
+                }
+            }
         }
         mb
     }
 }
 
 impl AudioTagEdit for Mp4Tag {
-
     fn title(&self) -> Option<&str> {
         self.inner.title()
     }
@@ -345,6 +369,16 @@ impl AudioTagEdit for Mp4Tag {
 
     fn acoust_id(&self) -> Arc<str> {
         self.musicbrainz.acoust_id()
+    }
+
+    fn musicbrainz_artist_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_artist_id()
+    }
+    fn musicbrainz_album_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_album_id()
+    }
+    fn musicbrainz_track_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_track_id()
     }
 }
 

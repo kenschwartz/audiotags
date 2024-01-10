@@ -149,15 +149,31 @@ pub trait AudioTagEdit: AudioTagConfig {
     fn remove_comment(&mut self);
 
     // MusicBrainz
+    /*
+     id3: description: Acoustid Id
+     flac: "ACOUSTID_ID"
+     mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "Acoustid Id"
+     */
     fn acoust_id(&self) -> Arc<str>;
     /*
-    fn musicbrainz_artist_id(&self) -> Option<&str>;
-    fn musicbrainz_recording_id(&self) -> Option<&str>;
-    fn musicbrainz_release_artist_id(&self) -> Option<&str>;
-    fn musicbrainz_release_group_id(&self) -> Option<&str>;
-    fn musicbrainz_release_id(&self) -> Option<&str>;
-    fn musicbrainz_track_id(&self) -> Option<&str>;
+     id3: description: MusicBrainz Album Artist Id
+     flac: "MUSICBRAINZ_ALBUMARTISTID"
+     mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Artist Id"
      */
+    fn musicbrainz_artist_id(&self) -> Arc<str>;
+
+    /*
+     id3: MusicBrainz Album Id (Picard calls this "MusicBrainz Release Id"
+     flac: "MUSICBRAINZ_ALBUMID" (Picard calls this "MusicBrainz Release Id"
+     mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Album Id"
+     */
+    fn musicbrainz_album_id(&self) -> Arc<str>;
+    /*
+     id3: MusicBrainz Release Track Id
+     flac: "MUSICBRAINZ_RELEASETRACKID"
+     mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Track Id"
+     */
+    fn musicbrainz_track_id(&self) -> Arc<str>;
 }
 
 pub trait AudioTagWrite {

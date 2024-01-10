@@ -1,4 +1,4 @@
-use std::sync::{Arc};
+use std::sync::Arc;
 
 use id3::Timestamp;
 
@@ -25,6 +25,9 @@ pub struct AnyTag<'a> {
 
     // MusicBrainz
     pub acoust_id: Arc<str>,
+    pub musicbrainz_artist_id: Arc<str>,
+    pub musicbrainz_album_id: Arc<str>,
+    pub musicbrainz_track_id: Arc<str>,
     /*
     pub musicbrainz_artist_id: Option<&'a str>,
     pub musicbrainz_recording_id: Option<&'a str>,
@@ -57,6 +60,9 @@ impl<'a> Default for AnyTag<'a> {
             composer: ::core::default::Default::default(),
             comment: ::core::default::Default::default(),
             acoust_id: Arc::from(String::new()),
+            musicbrainz_artist_id: Arc::from(String::new()),
+            musicbrainz_album_id: Arc::from(String::new()),
+            musicbrainz_track_id: Arc::from(String::new()),
         }
     }
 }
@@ -73,7 +79,7 @@ impl AudioTagConfig for AnyTag<'_> {
 
 impl MusicBrainzConfig for AnyTag<'_> {
     fn create_musicbrainz(&self) -> MusicBrainz {
-       MusicBrainz::default()
+        MusicBrainz::default()
     }
 }
 

@@ -13,13 +13,43 @@ impl_tag!(Id3v2Tag, Id3v2InnerTag, TagType::Id3v2);
 impl MusicBrainzConfig for Id3v2Tag {
     fn create_musicbrainz(&self) -> MusicBrainz {
         let mb = MusicBrainz::default();
-        let x = self.inner
-            .extended_texts()
-            .find(|&et| et.description == "Acoustid Id");
-        if x.is_some() {
-            mb.set_acoust_id(x.unwrap().value.to_string());
-            self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
+        {
+            let x = self.inner
+                .extended_texts()
+                .find(|&et| et.description == "Acoustid Id");
+            if x.is_some() {
+                mb.set_acoust_id(x.unwrap().value.to_string());
+                self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
+            }
         }
+        {
+            let x = self.inner
+                .extended_texts()
+                .find(|&et| et.description == "MusicBrainz Album Artist Id");
+            if x.is_some() {
+                mb.set_musicbrainz_artist_id(x.unwrap().value.to_string());
+                self.musicbrainz.set_musicbrainz_artist_id(x.unwrap().value.to_string());
+            }
+        }
+        {
+            let x = self.inner
+                .extended_texts()
+                .find(|&et| et.description == "MusicBrainz Album Id");
+            if x.is_some() {
+                mb.set_musicbrainz_album_id(x.unwrap().value.to_string());
+                self.musicbrainz.set_musicbrainz_album_id(x.unwrap().value.to_string());
+            }
+        }
+        {
+            let x = self.inner
+                .extended_texts()
+                .find(|&et| et.description == "MusicBrainz Release Track Id");
+            if x.is_some() {
+                mb.set_musicbrainz_track_id(x.unwrap().value.to_string());
+                self.musicbrainz.set_musicbrainz_track_id(x.unwrap().value.to_string());
+            }
+        }
+
         mb
     }
 }
@@ -47,6 +77,9 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
             comment: inp.comment(),
             // MusicBrainz
             acoust_id: inp.acoust_id(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
+            musicbrainz_album_id: inp.musicbrainz_album_id(),
+            musicbrainz_track_id: inp.musicbrainz_track_id(),
         }
     }
 }
@@ -302,69 +335,16 @@ impl AudioTagEdit for Id3v2Tag {
         self.musicbrainz.acoust_id()
     }
 
-    /*
-
-    fn musicbrainz_artist_id(&self) -> Option<&str> {
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Artist Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
+    fn musicbrainz_artist_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_artist_id()
     }
 
-
-    fn musicbrainz_recording_id(&self) -> Option<&str> {
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Track Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
+    fn musicbrainz_album_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_album_id()
     }
-
-
-    fn musicbrainz_release_artist_id(&self) -> Option<&str> {
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Album Artist Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
+    fn musicbrainz_track_id(&self) -> Arc<str> {
+        self.musicbrainz.musicbrainz_track_id()
     }
-
-
-    fn musicbrainz_release_group_id(&self) -> Option<&str> {
-        // MusicBrainz Release Group Id
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Release Group Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
-    }
-
-
-    fn musicbrainz_release_id(&self) -> Option<&str> {
-        // MusicBrainz Album Id
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Album Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
-    }
-
-    fn musicbrainz_track_id(&self) -> Option<&str> {
-        // MusicBrainz Release Track Id
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "MusicBrainz Release Track Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
-    }
-     */
 }
 
 impl AudioTagWrite for Id3v2Tag {
