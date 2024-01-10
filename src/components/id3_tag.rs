@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use crate::*;
 use id3::{self, Content, Frame, TagLike, Timestamp};
 
@@ -9,6 +10,7 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
     fn from(inp: &'a Id3v2Tag) -> Self {
         Self {
             config: inp.config,
+            musicbrainz: inp.musicbrainz.clone(),
 
             title: inp.title(),
             artists: inp.artists(),
@@ -27,12 +29,6 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
             comment: inp.comment(),
             // MusicBrainz
             acoust_id: inp.acoust_id(),
-            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
-            musicbrainz_recording_id: inp.musicbrainz_recording_id(),
-            musicbrainz_release_artist_id: inp.musicbrainz_release_artist_id(),
-            musicbrainz_release_group_id: inp.musicbrainz_release_group_id(),
-            musicbrainz_release_id: inp.musicbrainz_release_id(),
-            musicbrainz_track_id: inp.musicbrainz_track_id(),
         }
     }
 }
@@ -41,6 +37,7 @@ impl<'a> From<AnyTag<'a>> for Id3v2Tag {
     fn from(inp: AnyTag<'a>) -> Self {
         Self {
             config: inp.config,
+            musicbrainz: inp.musicbrainz.clone(),
             inner: {
                 let mut t = id3::Tag::new();
                 if let Some(v) = inp.title() {
@@ -266,15 +263,22 @@ impl AudioTagEdit for Id3v2Tag {
         self.inner.remove("COMM");
     }
 
-    fn acoust_id(&self) -> Option<&str> {
-        self.inner
-            .extended_texts()
-            .find(|&et| et.description == "Acoustid Id")
-            .and_then(|et| {
-                Some(et.value.as_str())
-            })
-    }
 
+    fn acoust_id(&self) -> Option<Arc<str>> {
+        let ai= self.musicbrainz.acoust_id();
+        if ai.is_some() {
+            return ai;
+        }
+        let x = self.inner
+            .extended_texts()
+            .find(|&et| et.description == "Acoustid Id");
+        if x.is_some() {
+            self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
+            return self.musicbrainz.acoust_id();
+        }
+        None
+    }
+    /*
 
     fn musicbrainz_artist_id(&self) -> Option<&str> {
         self.inner
@@ -336,6 +340,7 @@ impl AudioTagEdit for Id3v2Tag {
                 Some(et.value.as_str())
             })
     }
+     */
 }
 
 impl AudioTagWrite for Id3v2Tag {

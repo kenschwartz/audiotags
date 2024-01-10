@@ -2,8 +2,10 @@ use crate::*;
 use id3::Timestamp;
 use metaflac;
 use std::str::FromStr;
+use std::sync::Arc;
 
 pub use metaflac::Tag as FlacInnerTag;
+use crate::components::mp4_tag::Mp4FreeformIdent;
 
 impl_tag!(FlacTag, FlacInnerTag, TagType::Flac);
 
@@ -63,10 +65,6 @@ impl<'a> From<&'a FlacTag> for AnyTag<'a> {
             composer: inp.composer(),
             comment: inp.comment(),
             acoust_id: inp.acoust_id(),
-            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
-            musicbrainz_recording_id: inp.musicbrainz_recording_id(),
-            musicbrainz_release_artist_id: inp.musicbrainz_release_artist_id(),
-            musicbrainz_release_group_id: inp.musicbrainz_release_group_id(),
             ..Self::default()
         };
 
@@ -286,11 +284,29 @@ impl AudioTagEdit for FlacTag {
         self.remove("COMMENT");
     }
 
-    fn acoust_id(&self) -> Option<&str> {
+    fn acoust_id(&self) -> Option<Arc<str>> {
+        None
+        /*
         // "ACOUSTID_ID"
-        self.get_first("ACOUSTID_ID")
+        match self.musicbrainz.acoust_id() {
+            None => {
+                match self.get_first("ACOUSTID_ID") {
+                    None => return None,
+                    Some(x) => Some(self.musicbrainz.set_acoust_id(x.to_string())),
+                };
+                self.musicbrainz.acoust_id()
+            },
+            Some(x) => Some(x)
+        }
+         */
+
+        // if self.musicbrainz.acoust_id().is_some() {
+        // return self.musicbrainz.acoust_id();
+        // }
+        // self.get_first("ACOUSTID_ID")
     }
 
+    /*
     fn musicbrainz_artist_id(&self) -> Option<&str> {
         // "MUSICBRAINZ_ARTISTID"
         self.get_first("MUSICBRAINZ_ARTISTID")
@@ -320,6 +336,7 @@ impl AudioTagEdit for FlacTag {
         // "MUSICBRAINZ_RELEASETRACKID"
         self.get_first("MUSICBRAINZ_RELEASETRACKID")
     }
+     */
 }
 
 

@@ -2,8 +2,10 @@ use crate::*;
 use id3::Timestamp;
 use mp4ameta::{self, ImgFmt};
 use std::str::FromStr;
+use std::sync::Arc;
 
 pub use mp4ameta::Tag as Mp4InnerTag;
+pub use mp4ameta::FreeformIdent as Mp4FreeformIdent;
 
 impl_tag!(Mp4Tag, Mp4InnerTag, TagType::Mp4);
 
@@ -30,14 +32,17 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
         let comment = inp.comment();
         // MusicBrainz
         let acoust_id = None;
+        /*
         let musicbrainz_artist_id = None;
         let musicbrainz_recording_id = None;
         let musicbrainz_release_artist_id = None;
         let musicbrainz_release_group_id = None;
         let musicbrainz_release_id = None;
         let musicbrainz_track_id = None;
+         */
         Self {
             config: inp.config,
+            musicbrainz: inp.musicbrainz.clone(),
             title,
             artists,
             date,
@@ -54,12 +59,6 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
             composer,
             comment,
             acoust_id,
-            musicbrainz_artist_id,
-            musicbrainz_recording_id,
-            musicbrainz_release_artist_id,
-            musicbrainz_release_group_id,
-            musicbrainz_release_id,
-            musicbrainz_track_id,
         }
     }
 }
@@ -68,6 +67,7 @@ impl<'a> From<AnyTag<'a>> for Mp4Tag {
     fn from(inp: AnyTag<'a>) -> Self {
         Self {
             config: inp.config,
+            musicbrainz: inp.musicbrainz.clone(),
             inner: {
                 let mut t = mp4ameta::Tag::default();
                 if let Some(v) = inp.title() {
@@ -329,45 +329,19 @@ impl AudioTagEdit for Mp4Tag {
         self.inner.remove_comments();
     }
 
-    fn acoust_id(&self) -> Option<&str> {
-        for atom in self.inner
+    fn acoust_id(&self) -> Option<Arc<str>> {
+        let ai= self.musicbrainz.acoust_id();
+        if ai.is_some() {
+            return ai;
+        }
         let ident = Mp4FreeformIdent::new("com.apple.iTunes", "iTunes_CDDB_1");
         let isrc = self.inner.strings_of(&ident).next();
         if isrc.is_some() {
-            let x = isrc.unwrap();
-            println!("hi")
+            self.musicbrainz.set_acoust_id(isrc.unwrap().to_string());
+            return self.musicbrainz.acoust_id();
         }
-        return None;
-        //match isrc {
-            //None => { println!("No iTunes iTunes_CDDB_1 string found"); }
-            //Some(x) => { return x; }
-        //}
+        None
     }
-
-    fn musicbrainz_artist_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn musicbrainz_recording_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn musicbrainz_release_artist_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn musicbrainz_release_group_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn musicbrainz_release_id(&self) -> Option<&str> {
-        todo!()
-    }
-
-    fn musicbrainz_track_id(&self) -> Option<&str> {
-        todo!()
-    }
-
 }
 
 impl AudioTagWrite for Mp4Tag {

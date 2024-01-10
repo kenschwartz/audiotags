@@ -79,7 +79,10 @@ pub mod types;
 pub use types::*;
 
 pub mod config;
+pub mod musicbrainz;
+
 pub use config::Config;
+pub use musicbrainz::MusicBrainz;
 
 use std::convert::From;
 use std::fs::File;
@@ -113,6 +116,7 @@ pub struct Tag {
     tag_type: Option<TagType>,
     /// The config which can be specified with `.with_config()` before parsing.
     config: Config,
+    musicbrainz: MusicBrainz,
 }
 
 impl Tag {
@@ -127,13 +131,15 @@ impl Tag {
         Self {
             tag_type: Some(tag_type),
             config: self.config,
+            musicbrainz: self.musicbrainz,
         }
     }
     /// Specify configuration, if you do not want to use the default
-    pub fn with_config(self, config: Config) -> Self {
+    pub fn with_config(self, config: Config, musicbrainz: MusicBrainz) -> Self {
         Self {
             tag_type: self.tag_type,
             config,
+            musicbrainz,
         }
     }
     pub fn read_from_path(
