@@ -2,85 +2,57 @@ use std::sync::{Arc, RwLock};
 
 #[derive(Debug)]
 pub struct MusicBrainz {
-    pub acoust_id: RwLock<Option<Arc<str>>>,
-    pub musicbrainz_id: RwLock<Option<Arc<str>>>,
+    pub acoust_id: RwLock<Arc<str>>,
+    pub musicbrainz_id: RwLock<Arc<str>>,
 }
 
 impl Default for MusicBrainz {
     fn default() -> Self {
         Self {
-            acoust_id: RwLock::new(None),
-            musicbrainz_id: RwLock::new(None),
+            acoust_id: RwLock::new(Arc::from(String::new())),
+            musicbrainz_id: RwLock::new(Arc::from(String::new())),
         }
     }
 }
 
 impl MusicBrainz {
-    pub fn acoust_id(&self) -> Option<Arc<str>> {
+    pub fn acoust_id(&self) -> Arc<str> {
         let read_lock = self
             .acoust_id
             .read()
             .expect("acoust_id: error getting read");
-        if read_lock.is_none() {
-            return None;
-        }
-        let x = match Option::as_ref(&read_lock) {
-            Some(x) => Some(Arc::clone(x)),
-            None => None,
-        };
-        return x;
-        //Some(Arc::clone(x))
+        read_lock.clone()
     }
-    pub fn set_acoust_id(&self, aid: String) {
+    pub fn set_acoust_id(&self, id: String) {
         let mut write_lock = self
             .acoust_id
             .write()
             .expect("acoust_id: error getting write");
-        if write_lock.is_none() {
-            *write_lock = Some(Arc::from(aid.as_str()))
-        } else {
-            println!("acoust_id is already set!");
-        }
+        *write_lock = Arc::from(id.as_str());
     }
 
-    pub fn musicbrainz_id(&self) -> Option<Arc<str>> {
+    pub fn musicbrainz_id(&self) -> Arc<str> {
         let read_lock = self
             .musicbrainz_id
             .read()
             .expect("musicbrainz_id: error getting read");
-        if read_lock.is_none() {
-            return None;
-        }
-        let x = match Option::as_ref(&read_lock) {
-            Some(x) => Some(Arc::clone(x)),
-            None => None,
-        };
-        return x;
+        read_lock.clone()
     }
-    pub fn set_musicbrainz_id(&self, aid: String) {
+    pub fn set_musicbrainz_id(&self, id: String) -> Arc<str> {
         let mut write_lock = self
             .musicbrainz_id
             .write()
             .expect("musicbrainz_id: error getting write");
-        if write_lock.is_none() {
-            *write_lock = Some(Arc::from(aid.as_str()))
-        } else {
-            println!("musicbrainz_id is already set!");
-        }
+        *write_lock = Arc::from(id.as_str());
+        self.musicbrainz_id()
     }
 }
 
 impl Clone for MusicBrainz {
     fn clone(&self) -> Self {
         MusicBrainz {
-            acoust_id: match self.acoust_id() {
-                None => RwLock::new(None),
-                Some(x) => RwLock::new(Some(x)),
-            },
-            musicbrainz_id: match self.musicbrainz_id() {
-                None => RwLock::new(None),
-                Some(x) => RwLock::new(Some(x)),
-            },
+            acoust_id: RwLock::new(Arc::from(self.acoust_id().to_string().as_str())),
+            musicbrainz_id: RwLock::new(Arc::from(self.musicbrainz_id().to_string().as_str())),
         }
     }
 }

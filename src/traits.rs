@@ -4,7 +4,7 @@ use id3::Timestamp;
 
 use super::*;
 
-pub trait AudioTag: AudioTagEdit + AudioTagWrite + ToAnyTag {}
+pub trait AudioTag: AudioTagEdit + AudioTagWrite + MusicBrainzConfig + ToAnyTag {}
 
 // pub trait TagIo {
 //     fn read_from_path(path: &str) -> crate::Result<AnyTag>;
@@ -14,8 +14,8 @@ pub trait AudioTag: AudioTagEdit + AudioTagWrite + ToAnyTag {}
 /// Implementors of this trait are able to read and write audio metadata.
 ///
 /// Constructor methods e.g. `from_file` should be implemented separately.
-//pub trait AudioTagEdit: AudioTagConfig + MusicBrainzTagConfig {
-pub trait AudioTagEdit: crate::traits::AudioTagConfig {
+//pub trait AudioTagEdit: AudioTagConfig + MusicBrainzConfig {
+pub trait AudioTagEdit: AudioTagConfig {
     fn title(&self) -> Option<&str>;
     fn set_title(&mut self, title: &str);
     fn remove_title(&mut self);
@@ -149,7 +149,7 @@ pub trait AudioTagEdit: crate::traits::AudioTagConfig {
     fn remove_comment(&mut self);
 
     // MusicBrainz
-    fn acoust_id(&self) -> Option<Arc<str>>;
+    fn acoust_id(&self) -> Arc<str>;
     /*
     fn musicbrainz_artist_id(&self) -> Option<&str>;
     fn musicbrainz_recording_id(&self) -> Option<&str>;
@@ -171,12 +171,9 @@ pub trait AudioTagConfig {
     fn set_config(&mut self, config: Config);
 }
 
-/*
-pub trait MusicBrainzTagConfig {
-    fn musicbrainz(&self) -> &MusicBrainz;
-    fn set_musicbrainz(&mut self, musicbrainz: MusicBrainz);
+pub trait MusicBrainzConfig {
+    fn create_musicbrainz(&self) -> MusicBrainz;
 }
- */
 
 pub trait ToAnyTag: ToAny {
     fn to_anytag(&self) -> AnyTag<'_>;

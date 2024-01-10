@@ -1,10 +1,9 @@
-use std::sync::Arc;
+use std::sync::{Arc};
 
 use id3::Timestamp;
 
 use crate::*;
 
-#[derive(Default)]
 pub struct AnyTag<'a> {
     pub config: Config,
     pub musicbrainz: MusicBrainz,
@@ -25,7 +24,7 @@ pub struct AnyTag<'a> {
     pub comment: Option<&'a str>,
 
     // MusicBrainz
-    pub acoust_id: Option<Arc<str>>,
+    pub acoust_id: Arc<str>,
     /*
     pub musicbrainz_artist_id: Option<&'a str>,
     pub musicbrainz_recording_id: Option<&'a str>,
@@ -36,6 +35,33 @@ pub struct AnyTag<'a> {
      */
 }
 
+impl<'a> Default for AnyTag<'a> {
+    #[inline]
+    fn default() -> AnyTag<'a> {
+        AnyTag {
+            config: ::core::default::Default::default(),
+            musicbrainz: ::core::default::Default::default(),
+            title: ::core::default::Default::default(),
+            artists: ::core::default::Default::default(),
+            date: ::core::default::Default::default(),
+            year: ::core::default::Default::default(),
+            duration: ::core::default::Default::default(),
+            album_title: ::core::default::Default::default(),
+            album_artists: ::core::default::Default::default(),
+            album_cover: ::core::default::Default::default(),
+            track_number: ::core::default::Default::default(),
+            total_tracks: ::core::default::Default::default(),
+            disc_number: ::core::default::Default::default(),
+            total_discs: ::core::default::Default::default(),
+            genre: ::core::default::Default::default(),
+            composer: ::core::default::Default::default(),
+            comment: ::core::default::Default::default(),
+            acoust_id: Arc::from(String::new()),
+        }
+    }
+}
+
+
 impl AudioTagConfig for AnyTag<'_> {
     fn config(&self) -> &Config {
         &self.config
@@ -45,8 +71,14 @@ impl AudioTagConfig for AnyTag<'_> {
     }
 }
 
+impl MusicBrainzConfig for AnyTag<'_> {
+    fn create_musicbrainz(&self) -> MusicBrainz {
+       MusicBrainz::default()
+    }
+}
+
 /*
-impl MusicBrainzTagConfig for AnyTag<'_> {
+impl MusicBrainzConfig for AnyTag<'_> {
     fn musicbrainz(&self) -> &MusicBrainz {
         &self.musicbrainz
     }

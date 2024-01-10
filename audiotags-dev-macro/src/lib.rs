@@ -13,20 +13,6 @@ macro_rules! impl_audiotag_config {
 }
 
 #[macro_export]
-macro_rules! impl_audiotag_musicbrainz {
-    ($tag:ident) => {
-        impl MusicBrainzTagConfig for $tag {
-            fn musicbrainz(&self) -> &MusicBrainz {
-                &self.musicbrainz
-            }
-            fn set_musicbrainz(&mut self, musicbrainz: MusicBrainz) {
-                self.musicbrainz = musicbrainz.clone();
-            }
-        }
-    };
-}
-
-#[macro_export]
 macro_rules! impl_tag {
     ($tag:ident , $inner:ident, $tag_type:expr) => {
         #[derive(Default)]
@@ -48,7 +34,7 @@ macro_rules! impl_tag {
             }
         }
         impl_audiotag_config!($tag);
-        //impl_audiotag_musicbrainz!($tag);
+        //impl_musicbrainz!($tag);
 
         use std::any::Any;
 
@@ -68,7 +54,7 @@ macro_rules! impl_tag {
         }
 
         impl AudioTag for $tag {}
-        //impl MusicBrainzTag for $tag {}
+        //impl MusicBrainzConfig for $tag {}
 
         // From wrapper to inner (same type)
         impl From<$tag> for $inner {

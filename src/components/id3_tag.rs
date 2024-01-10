@@ -5,7 +5,24 @@ pub use id3::Tag as Id3v2InnerTag;
 
 use crate::*;
 
+/*
 impl_tag!(Id3v2Tag, Id3v2InnerTag, TagType::Id3v2);
+ */
+impl_tag!(Id3v2Tag, Id3v2InnerTag, TagType::Id3v2);
+
+impl MusicBrainzConfig for Id3v2Tag {
+    fn create_musicbrainz(&self) -> MusicBrainz {
+        let mb = MusicBrainz::default();
+        let x = self.inner
+            .extended_texts()
+            .find(|&et| et.description == "Acoustid Id");
+        if x.is_some() {
+            mb.set_acoust_id(x.unwrap().value.to_string());
+            self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
+        }
+        mb
+    }
+}
 
 impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
     fn from(inp: &'a Id3v2Tag) -> Self {
@@ -91,6 +108,21 @@ impl<'a> std::convert::TryFrom<&'a id3::frame::Picture> for Picture<'a> {
     }
 }
 
+/*
+impl MusicBrainzConfig for Id3v2Tag {
+    fn create_musicbrainz(&self) -> MusicBrainz {
+        let mb = MusicBrainz::default();
+        let x = self.inner
+            .extended_texts()
+            .find(|&et| et.description == "Acoustid Id");
+        if x.is_some() {
+            mb.set_musicbrainz_id(x.unwrap().value.to_string());
+        }
+        mb
+    }
+}
+ */
+
 impl AudioTagEdit for Id3v2Tag {
     fn title(&self) -> Option<&str> {
         self.inner.title()
@@ -98,30 +130,30 @@ impl AudioTagEdit for Id3v2Tag {
     fn set_title(&mut self, title: &str) {
         self.inner.set_title(title)
     }
+
     fn remove_title(&mut self) {
         self.inner.remove_title();
     }
-
     fn artist(&self) -> Option<&str> {
         self.inner.artist()
     }
     fn set_artist(&mut self, artist: &str) {
         self.inner.set_artist(artist)
     }
+
     fn remove_artist(&mut self) {
         self.inner.remove_artist();
     }
-
     fn date(&self) -> Option<Timestamp> {
         self.inner.date_recorded()
     }
     fn set_date(&mut self, timestamp: Timestamp) {
         self.inner.set_date_recorded(timestamp)
     }
+
     fn remove_date(&mut self) {
         self.inner.remove_date_recorded()
     }
-
     fn year(&self) -> Option<i32> {
         self.inner.year()
     }
@@ -132,30 +164,30 @@ impl AudioTagEdit for Id3v2Tag {
         self.inner.remove_date_recorded();
         self.inner.remove_year();
     }
+
     fn duration(&self) -> Option<f64> {
         self.inner.duration().map(f64::from)
     }
-
     fn album_title(&self) -> Option<&str> {
         self.inner.album()
     }
     fn set_album_title(&mut self, v: &str) {
         self.inner.set_album(v)
     }
+
     fn remove_album_title(&mut self) {
         self.inner.remove_album();
     }
-
     fn album_artist(&self) -> Option<&str> {
         self.inner.album_artist()
     }
     fn set_album_artist(&mut self, v: &str) {
         self.inner.set_album_artist(v)
     }
+
     fn remove_album_artist(&mut self) {
         self.inner.remove_album_artist();
     }
-
     fn album_cover(&self) -> Option<Picture> {
         self.inner
             .pictures()
@@ -176,11 +208,11 @@ impl AudioTagEdit for Id3v2Tag {
             data: cover.data.to_owned(),
         });
     }
+
     fn remove_album_cover(&mut self) {
         self.inner
             .remove_picture_by_type(id3::frame::PictureType::CoverFront);
     }
-
     fn composer(&self) -> Option<&str> {
         if let Some(Content::Text(text)) = self.inner.get("TCOM").map(Frame::content) {
             return Some(text);
@@ -191,60 +223,60 @@ impl AudioTagEdit for Id3v2Tag {
     fn set_composer(&mut self, composer: String) {
         self.inner.add_frame(Frame::text("TCOM", composer));
     }
+
     fn remove_composer(&mut self) {
         self.inner.remove("TCOM");
     }
-
     fn track_number(&self) -> Option<u16> {
         self.inner.track().map(|x| x as u16)
     }
     fn set_track_number(&mut self, track: u16) {
         self.inner.set_track(track as u32);
     }
+
     fn remove_track_number(&mut self) {
         self.inner.remove_track();
     }
-
     fn total_tracks(&self) -> Option<u16> {
         self.inner.total_tracks().map(|x| x as u16)
     }
     fn set_total_tracks(&mut self, total_track: u16) {
         self.inner.set_total_tracks(total_track as u32);
     }
+
     fn remove_total_tracks(&mut self) {
         self.inner.remove_total_tracks();
     }
-
     fn disc_number(&self) -> Option<u16> {
         self.inner.disc().map(|x| x as u16)
     }
     fn set_disc_number(&mut self, disc_number: u16) {
         self.inner.set_disc(disc_number as u32)
     }
+
     fn remove_disc_number(&mut self) {
         self.inner.remove_disc();
     }
-
     fn total_discs(&self) -> Option<u16> {
         self.inner.total_discs().map(|x| x as u16)
     }
     fn set_total_discs(&mut self, total_discs: u16) {
         self.inner.set_total_discs(total_discs as u32)
     }
+
     fn remove_total_discs(&mut self) {
         self.inner.remove_total_discs();
     }
-
     fn genre(&self) -> Option<&str> {
         self.inner.genre()
     }
     fn set_genre(&mut self, v: &str) {
         self.inner.set_genre(v);
     }
+
     fn remove_genre(&mut self) {
         self.inner.remove_genre();
     }
-
     fn comment(&self) -> Option<&str> {
         for comment in self.inner.comments() {
             if comment.description.is_empty() {
@@ -260,25 +292,16 @@ impl AudioTagEdit for Id3v2Tag {
             text: comment,
         });
     }
+
     fn remove_comment(&mut self) {
         self.inner.remove("COMM");
     }
 
 
-    fn acoust_id(&self) -> Option<Arc<str>> {
-        let ai = self.musicbrainz.acoust_id();
-        if ai.is_some() {
-            return ai;
-        }
-        let x = self.inner
-            .extended_texts()
-            .find(|&et| et.description == "Acoustid Id");
-        if x.is_some() {
-            self.musicbrainz.set_acoust_id(x.unwrap().value.to_string());
-            return self.musicbrainz.acoust_id();
-        }
-        None
+    fn acoust_id(&self) -> Arc<str> {
+        self.musicbrainz.acoust_id()
     }
+
     /*
 
     fn musicbrainz_artist_id(&self) -> Option<&str> {

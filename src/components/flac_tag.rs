@@ -92,7 +92,30 @@ impl FlacTag {
     }
 }
 
+impl MusicBrainzConfig for FlacTag {
+    fn create_musicbrainz(&self) -> MusicBrainz {
+        let mb = MusicBrainz::default();
+        let x = self.get_first("ACOUSTID_ID");
+        if x.is_some() {
+            self.musicbrainz.set_acoust_id(x.unwrap().to_string());
+            mb.set_acoust_id(x.unwrap().to_string());
+        }
+        mb
+    }
+}
+
 impl AudioTagEdit for FlacTag {
+    /*
+    fn create_musicbrainz(&self) -> MusicBrainz {
+        let mb = MusicBrainz::default();
+        let x = self.get_first("ACOUSTID_ID");
+        if x.is_some() {
+            mb.set_musicbrainz_id(x.unwrap().to_string());
+        }
+        mb
+    }
+     */
+
     fn title(&self) -> Option<&str> {
         self.get_first("TITLE")
     }
@@ -284,19 +307,16 @@ impl AudioTagEdit for FlacTag {
         self.remove("COMMENT");
     }
 
-    fn acoust_id(&self) -> Option<Arc<str>> {
+    fn acoust_id(&self) -> Arc<str> {
         // "ACOUSTID_ID"
-        let ai = self.musicbrainz.acoust_id();
-        if ai.is_some() {
-            return ai;
-        }
+        self.musicbrainz.acoust_id()
+        /*
         return match self.get_first("ACOUSTID_ID") {
             None => None,
             Some(x) => {
                 Some(self.musicbrainz.set_acoust_id(x.to_string()));
                 self.musicbrainz.acoust_id()
-            }
-        };
+         */
     }
 
     /*

@@ -71,8 +71,8 @@ pub(crate) use audiotags_dev_macro::*;
 pub use anytag::*;
 pub use components::*;
 pub use config::Config;
-pub use error::{Error, Result};
 pub use musicbrainz::MusicBrainz;
+pub use error::{Error, Result};
 pub use traits::*;
 pub use types::*;
 
@@ -88,6 +88,7 @@ pub mod types;
 
 pub mod config;
 pub mod musicbrainz;
+pub mod mb_value;
 
 /// A builder for `Box<dyn AudioTag>`. If you do not want a trait object, you can use individual types.
 ///
