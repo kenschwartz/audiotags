@@ -71,8 +71,8 @@ pub(crate) use audiotags_dev_macro::*;
 pub use anytag::*;
 pub use components::*;
 pub use config::Config;
-pub use musicbrainz::MusicBrainz;
 pub use error::{Error, Result};
+pub use musicbrainz::MusicBrainz;
 pub use traits::*;
 pub use types::*;
 
