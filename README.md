@@ -63,4 +63,44 @@ fn main() {
 }
 ```
 
+MusicBrainz:
+```rust
+use audiotags::{AudioTag, Tag};
+
+fn main() {
+    let tag: Box<dyn AudioTag> = Tag::default()
+        .read_from_path("/Users/kenschwartz/Documents/test//04 - Live Wire.mp3")
+        .unwrap();
+    tag.create_musicbrainz();
+    println!("title: {:?}", tag.title());
+    println!("artist: {:?}", tag.artist());
+    println!("acoust_id: {:?}", tag.acoust_id());
+    println!("musicbrainz_artist_id: {:?}", tag.musicbrainz_artist_id());
+    println!("musicbrainz_album_id: {:?}", tag.musicbrainz_album_id());
+    println!("musicbrainz_track_id: {:?}", tag.musicbrainz_track_id());
+
+    let tag: Box<dyn AudioTag> = Tag::default()
+        .read_from_path("/Users/kenschwartz/Documents/test/ACDC - Back In Black (Remastered) - 06. Back In Black.flac")
+        .unwrap();
+    tag.create_musicbrainz();
+    println!("title: {:?}", tag.title());
+    println!("artist: {:?}", tag.artist());
+    println!("acoust_id: {:?}", tag.acoust_id());
+    println!("musicbrainz_artist_id: {:?}", tag.musicbrainz_artist_id());
+    println!("musicbrainz_album_id: {:?}", tag.musicbrainz_album_id());
+    println!("musicbrainz_track_id: {:?}", tag.musicbrainz_track_id());
+
+    let tag: Box<dyn AudioTag> = Tag::default()
+        .read_from_path("/Users/kenschwartz/Documents/test/BWV0577.m4a")
+        .unwrap();
+    tag.create_musicbrainz();
+    println!("title: {:?}", tag.title());
+    println!("artist: {:?}", tag.artist());
+    println!("acoust_id: {:?}", tag.acoust_id());
+    println!("musicbrainz_artist_id: {:?}", tag.musicbrainz_artist_id());
+    println!("musicbrainz_album_id: {:?}", tag.musicbrainz_album_id());
+    println!("musicbrainz_track_id: {:?}", tag.musicbrainz_track_id());
+}
+```
+
 License: MIT
