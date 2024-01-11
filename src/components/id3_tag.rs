@@ -79,10 +79,10 @@ impl<'a> From<&'a Id3v2Tag> for AnyTag<'a> {
             composer: inp.composer(),
             comment: inp.comment(),
             // MusicBrainz
-            acoust_id: inp.acoust_id(),
-            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
-            musicbrainz_album_id: inp.musicbrainz_album_id(),
-            musicbrainz_track_id: inp.musicbrainz_track_id(),
+            acoust_id: inp.acoust_id().clone(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id().clone(),
+            musicbrainz_album_id: inp.musicbrainz_album_id().clone(),
+            musicbrainz_track_id: inp.musicbrainz_track_id().clone(),
         }
     }
 }
@@ -143,21 +143,6 @@ impl<'a> std::convert::TryFrom<&'a id3::frame::Picture> for Picture<'a> {
         Ok(Self { data, mime_type })
     }
 }
-
-/*
-impl MusicBrainzConfig for Id3v2Tag {
-    fn create_musicbrainz(&self) -> MusicBrainz {
-        let mb = MusicBrainz::default();
-        let x = self.inner
-            .extended_texts()
-            .find(|&et| et.description == "Acoustid Id");
-        if x.is_some() {
-            mb.set_musicbrainz_id(x.unwrap().value.to_string());
-        }
-        mb
-    }
-}
- */
 
 impl AudioTagEdit for Id3v2Tag {
     fn title(&self) -> Option<&str> {

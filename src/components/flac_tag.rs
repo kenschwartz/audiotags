@@ -64,10 +64,10 @@ impl<'a> From<&'a FlacTag> for AnyTag<'a> {
             genre: inp.genre(),
             composer: inp.composer(),
             comment: inp.comment(),
-            acoust_id: inp.acoust_id(),
-            musicbrainz_artist_id: inp.musicbrainz_artist_id(),
-            musicbrainz_album_id: inp.musicbrainz_album_id(),
-            musicbrainz_track_id: inp.musicbrainz_album_id(),
+            acoust_id: inp.acoust_id().clone(),
+            musicbrainz_artist_id: inp.musicbrainz_artist_id().clone(),
+            musicbrainz_album_id: inp.musicbrainz_album_id().clone(),
+            musicbrainz_track_id: inp.musicbrainz_album_id().clone(),
             ..Self::default()
         };
 
@@ -131,17 +131,6 @@ impl MusicBrainzConfig for FlacTag {
 }
 
 impl AudioTagEdit for FlacTag {
-    /*
-    fn create_musicbrainz(&self) -> MusicBrainz {
-        let mb = MusicBrainz::default();
-        let x = self.get_first("ACOUSTID_ID");
-        if x.is_some() {
-            mb.set_musicbrainz_id(x.unwrap().to_string());
-        }
-        mb
-    }
-     */
-
     fn title(&self) -> Option<&str> {
         self.get_first("TITLE")
     }

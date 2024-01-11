@@ -32,10 +32,10 @@ impl<'a> From<&'a Mp4Tag> for AnyTag<'a> {
         let composer = inp.composer();
         let comment = inp.comment();
         // MusicBrainz
-        let acoust_id = inp.acoust_id();
-        let musicbrainz_artist_id = inp.musicbrainz_artist_id();
-        let musicbrainz_album_id = inp.musicbrainz_album_id();
-        let musicbrainz_track_id = inp.musicbrainz_track_id();
+        let acoust_id = inp.acoust_id().clone();
+        let musicbrainz_artist_id = inp.musicbrainz_artist_id().clone();
+        let musicbrainz_album_id = inp.musicbrainz_album_id().clone();
+        let musicbrainz_track_id = inp.musicbrainz_track_id().clone();
         Self {
             config: inp.config,
             musicbrainz: inp.musicbrainz.clone(),
