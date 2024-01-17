@@ -6,7 +6,7 @@ use crate::*;
 
 pub struct AnyTag<'a> {
     pub config: Config,
-    pub musicbrainz: MusicBrainz<'a>,
+    pub musicbrainz: MusicBrainz,
     pub title: Option<&'a str>,
     pub artists: Option<Vec<&'a str>>,
     pub date: Option<Timestamp>,

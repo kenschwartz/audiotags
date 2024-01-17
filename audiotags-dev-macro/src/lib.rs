@@ -19,7 +19,7 @@ macro_rules! impl_tag {
         pub struct $tag {
             inner: $inner,
             config: Config,
-            musicbrainz: MusicBrainz<'a>,
+            musicbrainz: MusicBrainz,
         }
         impl $tag {
             pub fn new() -> Self {

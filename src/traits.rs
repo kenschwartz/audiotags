@@ -154,26 +154,26 @@ pub trait AudioTagEdit: AudioTagConfig {
      flac: "ACOUSTID_ID"
      mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "Acoustid Id"
      */
-    fn acoust_id(&self) -> &str;
+    fn acoust_id(&self) -> Arc<str>;
     /*
      id3: description: MusicBrainz Album Artist Id
      flac: "MUSICBRAINZ_ALBUMARTISTID"
      mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Artist Id"
      */
-    fn musicbrainz_artist_id(&self) -> &str;
+    fn musicbrainz_artist_id(&self) -> Arc<str>;
 
     /*
      id3: MusicBrainz Album Id (Picard calls this "MusicBrainz Release Id"
      flac: "MUSICBRAINZ_ALBUMID" (Picard calls this "MusicBrainz Release Id"
      mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Album Id"
      */
-    fn musicbrainz_album_id(&self) -> &str;
+    fn musicbrainz_album_id(&self) -> Arc<str>;
     /*
      id3: MusicBrainz Release Track Id
      flac: "MUSICBRAINZ_RELEASETRACKID"
      mp4: mean = {alloc::string::String} "com.apple.iTunes", name = {alloc::string::String} "MusicBrainz Track Id"
      */
-    fn musicbrainz_track_id(&self) -> &str;
+    fn musicbrainz_track_id(&self) -> Arc<str>;
 }
 
 pub trait AudioTagWrite {
