@@ -12,48 +12,32 @@ impl_tag!(Id3v2Tag, Id3v2InnerTag, TagType::Id3v2);
 
 impl MusicBrainzConfig for Id3v2Tag {
     fn create_musicbrainz(&self) -> MusicBrainz {
-        let mb = MusicBrainz::default();
-        {
-            let x = self.inner
-                .extended_texts()
-                .find(|&et| et.description == "Acoustid Id");
-            if x.is_some() {
-                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
-                mb.set_acoust_id(&new_string);
-                self.musicbrainz.set_acoust_id(&new_string);
-            }
+        let acoust_id: Option<&str> = Option::from(self.inner
+            .extended_texts()
+            .find(|&et| et.description == "Acoustid Id")?.value
+            .to_string().trim_matches(char::from(0)));
+
+        let artist_id: Option<&str> = Option::from(self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Album Artist Id")?.value
+            .to_string().trim_matches(char::from(0)));
+
+        let album_id: Option<&str> = Option::from(self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Album Id")?.value
+            .to_string().trim_matches(char::from(0)));
+
+        let track_id: Option<&str> = Option::from(self.inner
+            .extended_texts()
+            .find(|&et| et.description == "MusicBrainz Release Track Id")?.value
+            .to_string().trim_matches(char::from(0)));
+
+        MusicBrainz {
+            acoust_id: acoust_id.unwrap_or_else(|| "").to_string(),
+            musicbrainz_artist_id: artist_id.unwrap_or_else(|| "").to_string(),
+            musicbrainz_album_id: album_id.unwrap_or_else(|| "").to_string(),
+            musicbrainz_track_id: track_id.unwrap_or_else(|| "").to_string(),
         }
-        {
-            let x = self.inner
-                .extended_texts()
-                .find(|&et| et.description == "MusicBrainz Album Artist Id");
-            if x.is_some() {
-                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
-                mb.set_musicbrainz_artist_id(&new_string);
-                self.musicbrainz.set_musicbrainz_artist_id(&new_string);
-            }
-        }
-        {
-            let x = self.inner
-                .extended_texts()
-                .find(|&et| et.description == "MusicBrainz Album Id");
-            if x.is_some() {
-                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
-                mb.set_musicbrainz_album_id(&new_string);
-                self.musicbrainz.set_musicbrainz_album_id(&new_string);
-            }
-        }
-        {
-            let x = self.inner
-                .extended_texts()
-                .find(|&et| et.description == "MusicBrainz Release Track Id");
-            if x.is_some() {
-                let new_string = x.unwrap().value.to_string().trim_matches(char::from(0)).to_string();
-                mb.set_musicbrainz_track_id(&new_string);
-                self.musicbrainz.set_musicbrainz_track_id(&new_string);
-            }
-        }
-        mb
     }
 }
 
